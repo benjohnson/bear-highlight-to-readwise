@@ -6,12 +6,12 @@ function main() {
     .readdirSync("./notes", { withFileTypes: true })
     .filter(x => x.isFile())
     .map(x => x.name)
-    .filter(x => path.extname(x) === ".md")
+    .filter(x => path.extname(x) === ".md");
 
   let finalHighlights = [];
 
   for (let filePath of files) {
-    let file = fs.readFileSync(path.join('./notes', filePath), 'utf-8');
+    let file = fs.readFileSync(path.join("./notes", filePath), "utf-8");
 
     for (let highlight of getHighlights(file)) {
       finalHighlights.push({
@@ -24,7 +24,10 @@ function main() {
     }
   }
 
-  fs.writeFileSync('./highlights.json', JSON.stringify(finalHighlights, null, 2));
+  fs.writeFileSync(
+    "./highlights.json",
+    JSON.stringify(finalHighlights, null, 2)
+  );
 }
 
 function getTitle(file) {
@@ -33,8 +36,10 @@ function getTitle(file) {
 }
 
 function getHighlights(file) {
-  let matches = file.match(/::.*::/gm)
-  if (!matches) { return [] }
+  let matches = file.match(/::.*::/gm);
+  if (!matches) {
+    return [];
+  }
   return matches.map(highlight => {
     return highlight.match(/::(.*)::/)[1];
   });
